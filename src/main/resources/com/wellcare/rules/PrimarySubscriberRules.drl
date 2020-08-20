@@ -1,0 +1,49 @@
+package com.wellcare.rules;
+
+import com.wellcare.rules.Transaction;
+import com.wellcare.rules.RuleMessage;
+import java.time.LocalDate;
+
+
+
+
+
+rule "Primary Subscriber Rule"
+    ruleflow-group "PrimaryRules"
+    when
+        txn : Transaction( subscriberType.toLowerCase() == "y"  )
+        
+    then
+		RuleMessage msg = new RuleMessage();
+		msg.setMessageCode("009");
+		msg.setMessageText("Primary Rules Executed");
+		insert(msg);
+			
+end
+
+rule "Validate Primary Subscriber"
+    ruleflow-group "PrimaryRules"
+    when
+        txn : Transaction( subscriberType.toLowerCase() != "y")
+        
+    then
+		RuleMessage msg = new RuleMessage();
+		msg.setMessageCode("010");
+		msg.setMessageText("No primary subscriber found for the transaction");
+		insert(msg);
+			
+end
+
+rule "Validate Applicant Relationships"
+    ruleflow-group "PrimaryRules"
+    when
+        txn : Transaction( subscriberType.toLowerCase() == "y" && (relationshipType == null || relationshipType.toLowerCase() != "18") )
+        //txn : Transaction( subscriberType == "Y" && (relationshipType == null || relationshipType.toLower() != "18") )
+        
+    then
+		RuleMessage msg = new RuleMessage();
+		msg.setMessageCode("011");
+		msg.setMessageText("Invalid relationship code for the primary subscriber");
+		insert(msg);
+			
+end

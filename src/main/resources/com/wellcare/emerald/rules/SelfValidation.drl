@@ -1,0 +1,43 @@
+//com.wellcare.emerald.rules.MedicareEnrollment( )//created on: Mar 17, 2020
+package com.wellcare.emerald.rules;
+
+//list any import classes here.
+
+import com.wellcare.rules.Transaction;
+import com.wellcare.rules.RuleMessage;
+import com.wellcare.rules.Helper;
+
+
+//declare any global variables here
+
+//function boolean isValidMBI( String mbi ) {
+    //function content (can have multiple functions)
+//}
+
+
+rule "Validate Primary Subscriber"
+    ruleflow-group "SelfValidation"
+    when
+        txn : Transaction( subscriberType != "Y")
+        
+    then
+		RuleMessage msg = new RuleMessage();
+		msg.setMessageCode("005");
+		msg.setMessageText("No primary subscriber found for the transaction");
+		insert(msg);
+			
+end
+
+rule "Validate Applicant Relationships"
+    ruleflow-group "SelfValidation"
+    when
+        txn : Transaction( subscriberType == "Y" && (relationshipType == null || relationshipType.toLowerCase() != "18") )
+        //txn : Transaction( subscriberType == "Y" && (relationshipType == null || relationshipType.toLower() != "18") )
+        
+    then
+		RuleMessage msg = new RuleMessage();
+		msg.setMessageCode("006");
+		msg.setMessageText("Invalid relationship code for the primary subscriber");
+		insert(msg);
+			
+end

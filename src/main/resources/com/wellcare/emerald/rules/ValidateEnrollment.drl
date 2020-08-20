@@ -1,0 +1,49 @@
+//created on: Mar 17, 2020
+package com.wellcare.emerald.rules;
+
+//list any import classes here.
+
+import com.wellcare.rules.Transaction;
+import com.wellcare.rules.ApplicantIdentifier;
+import com.wellcare.rules.RuleMessage;
+import com.wellcare.rules.Helper;
+import java.time.LocalDate;
+
+
+//declare any global variables here
+
+//function boolean isValidMBI( String mbi ) {
+    //function content (can have multiple functions)
+//}
+
+
+rule "MBI Exists"
+    ruleflow-group "MedicareValidation"
+    when
+        txn : Transaction()
+        Transaction (lob == "Medicare")
+        not ai:ApplicantIdentifier ( identifierTypeCode == "MBI" ) from txn.applicantIdentifiers
+    then
+
+		RuleMessage msg = new RuleMessage();
+		msg.setMessageCode("004");
+		msg.setMessageText("MBI doesn't exist");
+		insert(msg);
+			
+end
+
+rule "Validate MBI"
+    ruleflow-group "MedicareValidation"
+    when
+        txn : Transaction()
+        Transaction (lob == "Medicare")
+        ai : ApplicantIdentifier(identifierTypeCode=="MBI", !Helper.isValidMBI(identifierValue)) from txn.applicantIdentifiers
+        
+    then
+		RuleMessage msg = new RuleMessage();
+		msg.setMessageCode("001");
+		msg.setMessageText("Invalid MBI");
+		insert(msg);
+			
+end
+

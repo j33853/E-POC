@@ -1,0 +1,19 @@
+package com.wellcare.rules;
+
+import com.wellcare.rules.Transaction;
+import com.wellcare.rules.RuleMessage;
+import java.time.LocalDate;
+
+
+rule "FL Rules"
+    ruleflow-group "FLRules"
+    when
+        txn : Transaction( state == "FL"  )
+        
+    then
+		RuleMessage msg = new RuleMessage();
+		msg.setMessageCode("008");
+		msg.setMessageText("FLRules Executed");
+		insert(msg);
+			
+end

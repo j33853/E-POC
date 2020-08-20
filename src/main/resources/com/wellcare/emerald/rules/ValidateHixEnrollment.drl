@@ -1,0 +1,33 @@
+//created on: Mar 17, 2020
+package com.wellcare.emerald.rules;
+
+//list any import classes here.
+
+import com.wellcare.rules.Transaction;
+import com.wellcare.rules.RuleMessage;
+import java.time.LocalDate;
+
+
+//declare any global variables here
+
+//function boolean isValidMBI( String mbi ) {
+    //function content (can have multiple functions)
+//}
+
+
+
+rule "Validate LOB"
+    ruleflow-group "HIXValidation"
+    when
+        txn : Transaction( lob == null || lob == "HIX"  )
+        
+    then
+		RuleMessage msg = new RuleMessage();
+		msg.setMessageCode("005");
+		msg.setMessageText("HIX enrollment");
+		insert(msg);
+			
+end
+
+
+

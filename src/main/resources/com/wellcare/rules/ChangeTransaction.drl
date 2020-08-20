@@ -1,0 +1,22 @@
+package com.wellcare.rules;
+
+import com.wellcare.rules.Transaction;
+import com.wellcare.rules.RuleMessage;
+import java.time.LocalDate;
+
+
+
+
+
+rule "Change Rule"
+    ruleflow-group "ChangeRules"
+    when
+        txn : Transaction( transactionType == "Change"  )
+        
+    then
+		RuleMessage msg = new RuleMessage();
+		msg.setMessageCode("012");
+		msg.setMessageText("Change Rules Executed");
+		insert(msg);
+			
+end

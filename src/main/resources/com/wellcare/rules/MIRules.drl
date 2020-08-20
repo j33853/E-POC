@@ -1,0 +1,22 @@
+package com.wellcare.rules;
+
+import com.wellcare.rules.Transaction;
+import com.wellcare.rules.RuleMessage;
+import java.time.LocalDate;
+
+
+
+
+
+rule "MI Rule"
+    ruleflow-group "MIRules"
+    when
+        txn : Transaction( state == "MI"  )
+        
+    then
+		RuleMessage msg = new RuleMessage();
+		msg.setMessageCode("007");
+		msg.setMessageText("MI Rules");
+		insert(msg);
+			
+end

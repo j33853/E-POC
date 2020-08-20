@@ -1,0 +1,22 @@
+package com.wellcare.rules;
+
+import com.wellcare.rules.Transaction;
+import com.wellcare.rules.RuleMessage;
+import java.time.LocalDate;
+
+
+
+
+
+rule "Dependent Rule"
+    ruleflow-group "DependentRules"
+    when
+        txn : Transaction( subscriberType == "Dependent"  )
+        
+    then
+		RuleMessage msg = new RuleMessage();
+		msg.setMessageCode("010");
+		msg.setMessageText("Dependent Rules Executed");
+		insert(msg);
+			
+end

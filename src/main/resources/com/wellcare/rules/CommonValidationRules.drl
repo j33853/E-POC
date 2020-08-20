@@ -1,0 +1,57 @@
+//package com.wellcare.emerald.rules.MedicareEnrollment( )//created on: Mar 17, 2020
+package com.wellcare.emerald.rules;
+
+//list any import classes here.
+
+import com.wellcare.rules.Transaction;
+import com.wellcare.rules.RuleMessage;
+import com.wellcare.rules.Helper;
+import java.time.LocalDate;
+
+
+//declare any global variables here
+
+//function boolean isValidMBI( String mbi ) {
+    //function content (can have multiple functions)
+//}
+
+
+rule "Validate Gender"
+    ruleflow-group "CommonValidation"
+    when
+        txn : Transaction( genderTypeCode == null || genderTypeCode.isEmpty() || genderTypeCode.matches("^[^MFU]$") )
+        
+    then
+		RuleMessage msg = new RuleMessage();
+		msg.setMessageCode("002");
+		msg.setMessageText("Invalid Gender");
+		insert(msg);
+			
+end
+
+rule "Validate Applicant DOB"
+    ruleflow-group "CommonValidation"
+    when
+        txn : Transaction( applicantDOB==null || applicantDOB.getYear() < 1900 || applicantDOB.isAfter(LocalDate.now()) )
+        //txn : Transaction( applicantDOB==null || applicantDOB.getYear() < 1900 || applicantDOB.isAfter(LocalDate.now()) )
+        
+    then
+		RuleMessage msg = new RuleMessage();
+		msg.setMessageCode("003");
+		msg.setMessageText("Member date of birth is in the future");
+		insert(msg);
+			
+end
+
+rule "Validate Applicant SSN"
+    ruleflow-group "CommonValidation"
+    when
+        txn : Transaction( applicantSSN==null || applicantSSN == '123456789' || applicantSSN.matches("(000|666|900|999).*") || applicantSSN.endsWith("0000") || applicantSSN.startsWith("00",3) )
+        
+    then
+		RuleMessage msg = new RuleMessage();
+		msg.setMessageCode("004");
+		msg.setMessageText("Invalid SSN");
+		insert(msg);
+			
+end

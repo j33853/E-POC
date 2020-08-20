@@ -1,0 +1,22 @@
+package com.wellcare.rules;
+
+import com.wellcare.rules.Transaction;
+import com.wellcare.rules.RuleMessage;
+import java.time.LocalDate;
+
+
+
+
+
+rule "Add Rule"
+    ruleflow-group "AddRules"
+    when
+        txn : Transaction( transactionType == "Add"  )
+        
+    then
+		RuleMessage msg = new RuleMessage();
+		msg.setMessageCode("011");
+		msg.setMessageText("Add Rules Executed");
+		insert(msg);
+			
+end
