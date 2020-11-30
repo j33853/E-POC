@@ -1,0 +1,61 @@
+" com.nextgen.rules.emerald.EnrollmentTransaction": {
+                              "enrollmentRequestGroupSurrogateKey":<String>,     
+                              "lineOfBusinessTypeCode":<String>,             
+                              "marketplaceTypeCode":<String>,
+                              "stateTypeCode":<String>,
+                              "effectiveDate":<LocalDate>,
+                              "groupPolicyIdentifier":<String>,
+                              "fileProductSourceName":<String>,
+                              "tradingPartnerIdentifier":<String>,       
+                              "priorGroupQhpId" :<String>,                            
+                              "coverageLapseIndicator" : <Boolean>,
+                              "eligibilityType" : <String>, 
+                              "businessLogicIndicator" : <Boolean>,,                                                             
+                              "enrollmentRequest":[ {
+                                            "enrollmentRequestSurrogateKey":<String>,
+                                            "firstName":<String>,
+                                            "middleName":<String>,
+                                            "lastName":<String>,
+                                            "dateOfBirth":<LocalDate>,
+                                            "identifier": [{
+                                                "identifierTypeCode":<String>,
+                                                "identifierValue":<String>,
+                                            }, 
+                                            ],
+                                           "genderTypeCode":<String>,      
+                                            "address": [ {
+                                                        "addressTypeCode": <String>,
+                                                        "addressLine1" : <String>,
+                                                        "addressLine2" : <String>,
+                                                        "city" : <String>,
+                                                        "countyTypeCode" : <String>,
+                                                        "stateTypeCode" : <String>,
+                                                        "postalCode" : <String>,
+                                                        "countryTypeCode" : <String>,
+
+                                                    },  
+                                                    ] ,                                    
+                                            "subscriberIndicator":<String>,
+                                            "marketplaceSubscriberIdentifier":<String>,
+                                            "relationshipTypeCode":<String>,
+                                            "maintenanceTypeCode":<String>,
+                                            "enrollmentSpanStartDate":<LocalDate>,                                            
+                                            "enrollmentSpanEndDate":<LocalDate>,
+                                            "benefitBeginDate":<LocalDate>,
+                                            "eligibilityBeginDate":<LocalDate>,
+                                            "productCatalogRate":<String>,
+                                            "benefitPlanIdentifier":<String>,
+                                            
+                                               
+                                            "reportingCategory": [ {
+                                                    "memberReportingCategoryName":<String>,
+                                                    "memberReportingCategoryEffectiveDate":<LocalDate>,
+                                                    "memberReportingCategoryRefId":<String>
+                                                                                                                        
+                                               },
+                                            ]
+                                             
+                                    },  
+                              ] ,        
+                                                                                          
+},
